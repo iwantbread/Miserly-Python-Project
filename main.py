@@ -59,13 +59,23 @@ def fetch_user(connection, user_id:int) -> list[tuple]:
     except Exception as e:
         ic(f"Error fetching user: {e}")
         raise
+    
+def fetch_all_users(connection) -> list[tuple]:
+    query = "SELECT * FROM users"
+    try:
+        with connection:
+            rows = connection.execute(query).fetchall()
+        return rows
+    except Exception as e:
+        ic(f"Error fetching all users: {e}")
+        raise
 
 def main():
     connection = get_connection("Users.db")
     
     create_table(connection)
     try:
-        start = input("Please Choose an option: \n 1. Insert User \n 2. Delete User \n 3. Fetch User data \n 4. Exit \n")
+        start = input("Please Choose an option: \n 1. Insert User \n 2. Delete User \n 3. Fetch User data \n 4. Fetch All Users \n 5. Exit \n")
         if start == '1': 
             name = input("Enter name: ")
             age = int(input("Enter age: "))
@@ -80,6 +90,10 @@ def main():
             for user in users:
                 ic(f"User found: {user}")
         elif start == '4':
+            users = fetch_all_users(connection)
+            for user in users:
+                ic(f"User found: {user}")
+        elif start == '5':
             print("Exiting the program.")
             connection.close()
             exit()
