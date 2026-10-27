@@ -39,6 +39,26 @@ def insert_user(connection, name:str, age:int, email:str):
     except Exception as e:
         ic(f"Error inserting user: {e}")
         raise
+    
+def delete_user(connection, user_id:int):
+    query = "DELETE FROM users WHERE id = ?"
+    try:
+        with connection:
+            connection.execute(query, (user_id,))
+            ic(f"User with ID {user_id} deleted successfully.")
+    except Exception as e:
+        ic(f"Error deleting user: {e}")
+        raise
+    
+def fetch_user(connection, user_id:int) -> list[tuple]:
+    query = "SELECT * FROM users WHERE id = ?"
+    try:
+        with connection:
+           rows = connection.execute(query, (user_id)).fetchall()
+        return rows
+    except Exception as e:
+        ic(f"Error fetching user: {e}")
+        raise
 
 def main():
     connection = get_connection("Users.db")
@@ -51,11 +71,15 @@ def main():
             age = int(input("Enter age: "))
             email = input("Enter email: ")
             insert_user(connection, name, age, email)
-        if start == '2':
-            print("Delete User functionality not implemented yet.")
-        if start == '3':
-            print("Fetch User data functionality not implemented yet.")
-        if start == '4':
+        elif start == '2':
+            user_id = int(input("Enter the ID of the user to delete: "))
+            delete_user(connection, user_id)
+        elif start == '3':
+            user_id = int(input("Enter the ID of the user to fetch: "))
+            users = fetch_user(connection, user_id)
+            for user in users:
+                ic(f"User found: {user}")
+        elif start == '4':
             print("Exiting the program.")
             connection.close()
             exit()
