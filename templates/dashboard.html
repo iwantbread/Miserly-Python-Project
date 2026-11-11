@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<section class="card dashboard"><span class="eyebrow">YOUR WORKSPACE</span><h1>Hello, {{ g.user['name'] }}.</h1><p>You’re logged in as <strong>{{ g.user['email'] }}</strong>.</p><div class="empty-state"><h2>A fresh start for your business.</h2><p>Your account is ready. This protected dashboard is where your team can add spending entries, purchase history, and reports.</p></div></section>
+{% endblock %}
