@@ -1,30 +1,45 @@
-# Miserly — Flask authentication
+# Miserly — beginner Flask project
 
-Registration, login, logout, and a protected dashboard for the team's business tracker. The supplied ZIP contains empty UI files, so this implementation uses a responsive green theme.
+A small registration, login, and logout app for our business tracker. The dashboard is a placeholder for the team's other features.
 
-## Run locally (PowerShell)
+## Run it
+
+In the VS Code terminal, from this project folder:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+Open **http://127.0.0.1:5000** in your browser. Keep the terminal running; press **Ctrl+C** to stop it. If the previous version is running, stop it and start again to see the rewrite.
+
+A teammate setting it up for the first time can run:
 
 ```powershell
 py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python main.py
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe main.py
 ```
 
-Open http://127.0.0.1:5000, create an account, then log in. SQLite is created automatically in `instance/`. This directory also holds a local session signing key; keep it private and out of Git.
+## Understand it
 
-The virtual environment is already prepared in this workspace. You can start directly with `.\.venv\Scripts\python.exe main.py` without activating it.
+- `main.py`: commented Python functions for registration, login, and logout.
+- `templates/`: three separate HTML pages: `register.html`, `login.html`, and `dashboard.html`.
+- `static/style.css`: a short green stylesheet shared by the pages.
+- `instance/miserly.sqlite`: automatically created database; existing accounts still work.
+- `requirements.txt`: the Flask package requirement.
+- [Short learning guide](docs/learning-guide.md): basic syntax, how the app works, and a lecturer explanation.
 
-## Team integration
+The app uses a fresh random signing key each time it starts: restarting signs you out, but keeps your registered account. The older `instance/secret_key` file, if present, is no longer used.
 
-`main.py` exposes `create_app()` and `/register`, `/login`, `/logout` (POST), and `/dashboard`. The dashboard is a placeholder for the rest of the business tracker. Follow its `@login_required` pattern to protect new routes; `g.user` contains the signed-in user's ID, name, and email. Scope future business records to `g.user['id']`.
+## Try these checks
 
-Templates live in `templates/` and styles in `static/style.css`. Every POST form needs the hidden `csrf_token` field shown in the existing templates. Passwords are hashed with Werkzeug; SQL uses bound parameters. Logout clears the session. Password reset and email verification are not included.
+1. Open `/dashboard` before logging in. You should return to login.
+2. Register with mismatching passwords. You should see an error.
+3. Register a valid account with a password of 8–128 characters.
+4. Try registering the same email again. It should be rejected.
+5. Log in with a wrong password, then the correct one.
+6. Check your name appears on the dashboard.
+7. Click **Log out**, then open `/dashboard` again. You should return to login.
+8. Restart the app and log in again. Your account should still exist.
 
-For deployment, set a private, stable `SECRET_KEY` environment variable, use HTTPS and `SESSION_COOKIE_SECURE=True`, add login rate limiting, and use a production WSGI server. Debug mode is off unless `FLASK_DEBUG=1`.
-
-Run tests with `python -m unittest discover -s tests -v`.
-
-## Learn how it works
-
-Start with [the Python and Flask learning guide](docs/learning-guide.md), then read [templates and styles](docs/templates-and-styles.md) and [tests and project files](docs/testing-and-project-files.md). These explain every application statement, template line, CSS rule, test, and supporting file, with beginner syntax examples and lecturer preparation.
+This is a local classroom demo. Passwords are hashed, SQL values use placeholders, and POST forms include a CSRF token. Email checks are basic; email verification, password reset, and public deployment are outside this small version.
