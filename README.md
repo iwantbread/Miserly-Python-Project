@@ -1,7 +1,7 @@
 (format) dd/mm - changes
 
 --- Vlad ---
-....
+5/11 (to 12/11) - added a basic file structure for the UI
 ------
 
 
