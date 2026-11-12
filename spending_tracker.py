@@ -28,10 +28,11 @@ shopping_basket.append(butter)
 print(bread.calculate_total())
 print(milk.calculate_total())
 
-amount = Decimal("0.00")
+def basket_total(basket):
+    amount = Decimal("0.00")
+    for purchase in basket:
+        amount += purchase.calculate_total()
+        print(purchase.calculate_total())
+    return amount
 
-for purchase in shopping_basket:
-    amount = amount + purchase.calculate_total()
-    print(purchase.calculate_total())
-
-print(amount, "Euro")
+print(basket_total(shopping_basket))
