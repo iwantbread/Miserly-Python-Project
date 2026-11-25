@@ -1,7 +1,7 @@
 from contextlib import closing
 
 import DatabaseModule as db
-
+print(db)
 DB_NAME = "SpendingApp.db"
 
 
