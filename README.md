@@ -8,3 +8,8 @@
 --Patrick--
 12/11 - now able to calculate shoping total, Made a start on weekly calculation
 ---------
+
+
+--Adam--
+26/11 - Addition of SQL tools.
+---------
